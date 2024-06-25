@@ -10,13 +10,13 @@ export class UsersController {
 
   //모든 유저 조회
   @Get()
-  getAllUser(): User[] {
+  getAllUser(): Promise<User[]> {
     return this.UsersService.getAllUser();
   }
 
   //유저 한명 조회
   @Get(':id')
-  getOne(@Param('id') userId: number): User {
+  getOne(@Param('id') userId: number): Promise<User> {
     return this.UsersService.getUser(userId);
   }
 
@@ -26,11 +26,11 @@ export class UsersController {
     return this.UsersService.signUpUser(userData);
   }
 
-  //로그인
-  @Post('/log-in')
-  logIn(@Body() userData: CreateUserDto) {
-    return this.UsersService.logInUser(userData);
-  }
+  // //로그인
+  // @Post('/log-in')
+  // logIn(@Body() userData: CreateUserDto) {
+  //   return this.UsersService.logInUser(userData);
+  // }
 
   //유저 삭제
   @Delete(':id')

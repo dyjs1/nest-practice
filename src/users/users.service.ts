@@ -1,53 +1,49 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  private users: User[] = [];
+  // private users: User[] = [];
+  constructor(
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
+  ) {}
 
-  getAllUser(): User[] {
-    return this.users;
+  getAllUser(): Promise<User[]> {
+    // return this.users;
+    //dsfdsfs
+    return this.usersRepository.find();
   }
 
-  getUser(id: number): User {
-    const user = this.users.find((user) => user.id == id);
-    if (!user) {
-      throw new NotFoundException(`User with ID : ${id} not found`);
-    }
-    return user;
+  getUser(id: number): Promise<User> {
+    return this.usersRepository.findOneBy({ id: id });
   }
 
   deleteUser(id: number) {
-    this.getUser(id);
-    this.users = this.users.filter((user) => user.id !== id);
+    return this.usersRepository.delete(id);
   }
 
-  signUpUser(userData: CreateUserDto) {
-    //아이디 중복확인
-    const existUser = this.users.find(
-      (user) => user.username === userData.username,
-    );
-    if (existUser) {
-      throw new Error(`Username ${userData.username} already exists`);
-    }
-    this.users.push({
-      id: this.users.length + 1,
-      ...userData,
-    });
-  }
-
-  logInUser(userData: CreateUserDto) {
-    //아이디 패스워드 검증
-    const user = this.users.find(
-      (user) =>
-        user.username === userData.username &&
-        user.password === userData.password,
-    );
-
-    if (!user) {
-      throw new NotFoundException(`Membe mismatch`);
-    }
-    return user;
+  signUpUser(createUserDto: CreateUserDto): Promise<User> {
+    const user = new User();
+    user.username = createUserDto.username;
+    user.password = createUserDto.password;
+    return this.usersRepository.save(user);
   }
 }
+
+// logInUser(userData: CreateUserDto) {
+//   //아이디 패스워드 검증
+//   const user = this.users.find(
+//     (user) =>
+//       user.username === userData.username &&
+//       user.password === userData.password,
+//   );
+
+//   if (!user) {
+//     throw new NotFoundException(`Membe mismatch`);
+//   }
+//   return user;
+// }
