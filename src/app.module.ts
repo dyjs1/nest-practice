@@ -24,7 +24,7 @@ import { User } from './users/entities/user.entity';
         database: configService.get('database.name'),
         // entities: [join(__dirname, 'src/entities/*.ts')],
         entities: [User],
-        synchronize: true,
+        // synchronize: true, // 아예 설정 xxxxxxxxxxxs
         logging: true,
       }),
     }),

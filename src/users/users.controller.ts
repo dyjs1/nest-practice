@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Post, Delete, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Delete,
+  Body,
+  ConflictException,
+} from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -22,13 +30,19 @@ export class UsersController {
 
   //회원가입
   @Post('sign-up')
-  signUp(@Body() userData: CreateUserDto) {
+  async signUp(@Body() userData: CreateUserDto) {
+    const { username } = userData;
+    //중복 아이디 체크
+    const hasUsername = await this.UsersService.findByUsername(username);
+    if (hasUsername) {
+      throw new ConflictException('Existing username');
+    }
     return this.UsersService.signUpUser(userData);
   }
 
   // //로그인
   // @Post('/log-in')
-  // logIn(@Body() userData: CreateUserDto) {
+  // async logIn(@Body() userData: CreateUserDto) {
   //   return this.UsersService.logInUser(userData);
   // }
 

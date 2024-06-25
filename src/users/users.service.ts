@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -19,7 +24,11 @@ export class UsersService {
   }
 
   getUser(id: number): Promise<User> {
-    return this.usersRepository.findOneBy({ id: id });
+    return this.usersRepository.findOne({
+      where: {
+        id,
+      },
+    });
   }
 
   deleteUser(id: number) {
@@ -31,6 +40,14 @@ export class UsersService {
     user.username = createUserDto.username;
     user.password = createUserDto.password;
     return this.usersRepository.save(user);
+  }
+
+  findByUsername(username: string) {
+    return this.usersRepository.findOne({
+      where: {
+        username,
+      },
+    });
   }
 }
 
