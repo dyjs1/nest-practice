@@ -24,27 +24,21 @@ export class UsersController {
 
   //유저 한명 조회
   @Get(':id')
-  getOne(@Param('id') userId: number): Promise<User> {
-    return this.UsersService.getUser(userId);
+  getUser(@Param('id') userId: number): Promise<User> {
+    return this.UsersService.getUserById(userId);
   }
 
   //회원가입
   @Post('sign-up')
-  async signUp(@Body() userData: CreateUserDto) {
-    const { username } = userData;
-    //중복 아이디 체크
-    const hasUsername = await this.UsersService.findByUsername(username);
-    if (hasUsername) {
-      throw new ConflictException('Existing username');
-    }
+  async signUpUser(@Body() userData: CreateUserDto) {
     return this.UsersService.signUpUser(userData);
   }
 
-  // //로그인
-  // @Post('/log-in')
-  // async logIn(@Body() userData: CreateUserDto) {
-  //   return this.UsersService.logInUser(userData);
-  // }
+  //로그인
+  @Post('/log-in')
+  async logIn(@Body() userData: CreateUserDto) {
+    return this.UsersService.logInUser(userData);
+  }
 
   //유저 삭제
   @Delete(':id')

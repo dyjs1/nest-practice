@@ -1,9 +1,14 @@
-# jwt
+env
+front-end : react
+back-end : typescript & nestjs
+db : mysql
+orm : typeorm
+
 
 # 로그인
-- 아이디 패스워드 검증
-- jwt
+- 아이디 패스워드 검증 [v]
+- jwt <-다운로드까지 함
 
 # 회원가입
-- 아이디 중복 체크
-- 패스워드 저장(해시값)
+- 아이디 중복 체크 [v]
+- 패스워드 저장(해시값) [v]
