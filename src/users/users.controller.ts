@@ -5,16 +5,24 @@ import {
   Post,
   Delete,
   Body,
-  ConflictException,
+  UseGuards,
+  Request,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { AuthService } from 'src/auth/auth.service';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 //라우터 설정
 @Controller('users')
 export class UsersController {
-  constructor(private readonly UsersService: UsersService) {}
+  constructor(
+    private readonly UsersService: UsersService,
+    private readonly authService: AuthService, // AuthService 주입
+  ) {}
 
   //모든 유저 조회
   @Get()
@@ -34,10 +42,19 @@ export class UsersController {
     return this.UsersService.signUpUser(userData);
   }
 
-  //로그인
+  //로그인 --> authService에 만든 login으로 넘어감
+  @HttpCode(HttpStatus.OK)
   @Post('/log-in')
   async logIn(@Body() userData: CreateUserDto) {
-    return this.UsersService.logInUser(userData);
+    return this.authService.signIn(userData);
+  }
+  //access token이 있어야만 접근이 가능하도록 보호
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  async getProfile(@Request() req) {
+    console.log('UsersController - req.user:', req.user);
+    const userId = req.user.id;
+    return this.UsersService.getProfile(userId);
   }
 
   //유저 삭제

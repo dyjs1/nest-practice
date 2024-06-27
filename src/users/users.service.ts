@@ -9,12 +9,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class UsersService {
   // private users: User[] = [];
   constructor(
-    @InjectRepository(User)
+    @InjectRepository(User) //특정 Entity의 Repository를 의존관계로 주입할 때 사용
     private readonly usersRepository: Repository<User>,
   ) {}
 
@@ -29,6 +30,10 @@ export class UsersService {
         id,
       },
     });
+  }
+
+  async getProfile(userId: number): Promise<User> {
+    return this.usersRepository.findOne({ where: { id: userId } });
   }
 
   getUserByUsername(username: string): Promise<User> {
@@ -100,7 +105,7 @@ export class UsersService {
       if (!isPasswordMatching) {
         throw new UnauthorizedException('Invalid password');
       }
-      user.password = undefined; // 비밀번호를 undefined로 설정하여 반환되지 않도록 함
+      user.password = undefined; //c 비밀번호를 undefined로 설정하여 반환되지 않도록 함
       return user;
     } catch (error) {
       throw new InternalServerErrorException('Authentication failed - login');
