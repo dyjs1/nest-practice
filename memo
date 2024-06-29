@@ -7,7 +7,7 @@ orm : typeorm
 
 # 로그인
 - 아이디 패스워드 검증 [v]
-- jwt <-다운로드까지 함
+- jwt [v]
 
 # 회원가입
 - 아이디 중복 체크 [v]
@@ -16,13 +16,16 @@ orm : typeorm
 
 # 상품 등록 페이지 만들기 prod
 상품 생성
-- 상품명 product
+product
+- 상품명 name
 - 판매가 price
 - 상품 이미지 url
 - 상세설명 detail
-- 옵션 option 
-- 상품정보고시 info_notice
-- 카테고리 category
+- 옵션 option
+- 상품정보고시 info_notice ---> product-info-notice N:1 (상품정보고시 하나가 여러개의 상품을 가질 수 있음)
+- 카테고리 category ---> product-category N:1 (카테고리 하나가 여러개의 상품을 가질 수 있음)
+- userId <-- ---> User 내가 추가 1:N (한개의 유저가 여러개의 상품을 가질 수 있음)
+- is sold out <-- 내가 추가
 
 카테고리, 상품 정보고시는 테이블 따로 추가해서 리스팅 ( 한 두개만 간단하게 추가 하면 됨)
 상품 등록 유효성 검사 필수

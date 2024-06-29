@@ -1,37 +1,45 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateProdDto } from './create-prod.dto';
-import { IsInt, IsNumber, IsOptional, IsString, IsUrl } from 'class-validator';
+import {
+  IsBoolean,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUrl,
+} from 'class-validator';
 
 //CreateProdDto 모든 필드값을 선택사항으로 변경하여 재사용
 export class UpdateProdDto extends PartialType(CreateProdDto) {
-  @IsNumber()
-  id: number;
-
+  //가격 이름
   @IsString()
-  @IsOptional()
-  product: string;
+  name: string;
 
+  //상품 가격
   @IsInt()
-  @IsOptional()
   price: number;
 
+  //상품 이미지 url
   @IsUrl()
-  @IsOptional()
   url: string;
 
+  //상품 상세설명
   @IsString()
-  @IsOptional()
   detail: string;
 
+  //상품 옵션
   @IsString({ each: true }) //리스트로 전달
-  @IsOptional()
-  option: string;
+  option: string[];
 
+  //상품 상품정보고시
   @IsString()
-  @IsOptional()
   info_notice: string;
 
+  //상품 카테고리
   @IsString()
-  @IsOptional()
   category: string;
+
+  //prod가 팔렸는지 여부 기본값: false
+  @IsBoolean()
+  isSoldOut: boolean;
 }

@@ -9,9 +9,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { AuthService } from 'src/auth/auth.service';
 
-@Injectable()
+@Injectable() //해당 클래스가 주입이 가능한 상태로 만들어주는 역할
 export class UsersService {
   // private users: User[] = [];
   constructor(
@@ -31,10 +30,10 @@ export class UsersService {
       },
     });
   }
-
-  async getProfile(userId: number): Promise<User> {
-    return this.usersRepository.findOne({ where: { id: userId } });
-  }
+  // //로그인 보안인증시 사용
+  // async getProfile(id: number): Promise<User> {
+  //   return this.usersRepository.findOne({ where: { id: id } });
+  // }
 
   getUserByUsername(username: string): Promise<User> {
     return this.usersRepository.findOne({
@@ -43,12 +42,12 @@ export class UsersService {
       },
     });
   }
-  //권한없어서 안됨
+  //delete 권한없어서 처리x
   deleteUser(id: number) {
     return this.usersRepository.delete(id);
   }
 
-  //erorr 캐치 왜못함
+  //erorr 캐치 왜못함.....
   async signUpUser(userData: CreateUserDto): Promise<User> {
     try {
       const { username, password } = userData;
@@ -78,7 +77,8 @@ export class UsersService {
       throw new InternalServerErrorException('User registration failed');
     }
   }
-
+  /******************************************/
+  ///////////* auth폴더에서 처리하기로함 */////////
   //유저가 존재하고 패스워드가 일치하는지 확인====> 지울까 쓸까 ....
   async valiteUser(userData: CreateUserDto): Promise<User> {
     const { username, password } = userData;
@@ -88,7 +88,8 @@ export class UsersService {
     }
     return null;
   }
-
+  /******************************************/
+  ///////////* auth폴더에서 처리하기로함 */////////
   //로그인 -> plainPassword
   async logInUser(userData: CreateUserDto): Promise<User> {
     try {
@@ -111,31 +112,4 @@ export class UsersService {
       throw new InternalServerErrorException('Authentication failed - login');
     }
   }
-  //https://docs.nestjs.com/security/authentication
-  // async login(userData: CreateUserDto): Promise<User> {
-  //   const { username, password } = userData;
-  //   const user = await this.valiteUser(userData);
-  //   if (!user) {
-  //     throw new UnauthorizedException('Invalid credentials');
-  //   }
-
-  //   const payload = { username: user.username, sub: user.id };
-  //   return {
-  //     accessToken: JwtService.sign(payload),
-  //   };
-  // }
 }
-
-// logInUser(userData: CreateUserDto) {
-//   //아이디 패스워드 검증
-//   const user = this.users.find(
-//     (user) =>
-//       user.username === userData.username &&
-//       user.password === userData.password,
-//   );
-
-//   if (!user) {
-//     throw new NotFoundException(`Membe mismatch`);
-//   }
-//   return user;
-// }

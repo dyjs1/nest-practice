@@ -3,11 +3,17 @@ import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import configuration from 'config/configuration';
+
 import { User } from './users/entities/user.entity';
 import { ProdModule } from './prod/prod.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersController } from './users/users.controller';
+import { Prod } from './prod/entities/prod.entity';
+import { CategoryController } from './category/category.controller';
+import { CategoryModule } from './category/category.module';
+import { ProdInfoNoticeService } from './prod-info-notice/prod-info-notice.service';
+import { ProdInfoNoticeModule } from './prod-info-notice/prod-info-notice.module';
+import configuration from 'config/configuration';
 
 @Module({
   imports: [
@@ -26,16 +32,18 @@ import { UsersController } from './users/users.controller';
         username: configService.get('database.user'),
         password: configService.get('database.password'),
         database: configService.get('database.name'),
-        entities: [User],
-        // synchronize: true, // 아예 설정 xxxxxxxxxxxs
+        entities: [User, Prod],
+        synchronize: true, // 아예 설정 xxxxxxxxxxxs
         logging: true,
       }),
     }),
     ProdModule,
     UsersModule,
     AuthModule,
+    CategoryModule,
+    ProdInfoNoticeModule,
   ],
-  controllers: [AppController, UsersController],
-  providers: [],
+  controllers: [AppController, UsersController, CategoryController],
+  providers: [ProdInfoNoticeService],
 })
 export class AppModule {}

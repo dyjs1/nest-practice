@@ -10,7 +10,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signIn(loginData: CreateAuthDto): Promise<{ access_token: string }> {
+  async login(loginData: CreateAuthDto): Promise<{ access_token: string }> {
     const { username, password } = loginData;
     const user = await this.usersService.getUserByUsername(username);
     const hashedPassword = user.password;

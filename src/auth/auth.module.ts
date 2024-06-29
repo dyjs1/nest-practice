@@ -5,6 +5,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as dotenv from 'dotenv';
 import { AuthGuard } from './auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 dotenv.config();
 @Module({
   imports: [
