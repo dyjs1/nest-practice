@@ -1,5 +1,12 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
+import { Category } from 'src/category/entities/cateogry.entity';
 
 @Entity()
 export class Prod {
@@ -21,12 +28,15 @@ export class Prod {
   @Column()
   info_notice: string;
 
-  @Column()
-  category: string;
-
   @Column({ default: false })
   isSoldOut: boolean;
 
-  @ManyToOne(() => User, (user) => user.username)
+  @CreateDateColumn()
+  created_at: Date;
+
+  @ManyToOne(() => User, (user) => user.prods, { onDelete: 'CASCADE' })
   user: User;
+
+  @ManyToOne(() => Category, (category) => category.prods)
+  category: Category;
 }

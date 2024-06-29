@@ -1,15 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { ProdService } from './prod.service';
 import { CreateProdDto } from './dto/create-prod.dto';
-import { UpdateProdDto } from './dto/update-prod.dto';
 
 //라우터 설정
 @Controller('prod')
@@ -17,8 +8,8 @@ export class ProdController {
   constructor(private readonly prodService: ProdService) {}
   //상품 등록
   @Post()
-  create(@Body() prodDate: CreateProdDto) {
-    return this.prodService.create(prodDate);
+  create(@Body() prodData: CreateProdDto) {
+    return this.prodService.createProd(prodData);
   }
   //상품 조회
   @Get()

@@ -1,8 +1,8 @@
-import { Prod } from 'src/prod/entities/prod.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { RolesEnum } from '../enums';
+import { Prod } from 'src/prod/entities/prod.entity';
 
 @Entity()
-// @Unique(['username'])
 export class User {
   @PrimaryGeneratedColumn()
   id: number;

@@ -1,13 +1,12 @@
 import {
   IsBoolean,
   IsInt,
+  IsNotEmpty,
   IsNumber,
   IsString,
   IsUrl,
-  isString,
+  isNumber,
 } from 'class-validator';
-import { User } from 'src/users/entities/user.entity';
-import { ManyToOne } from 'typeorm';
 
 export class CreateProdDto {
   //가격 이름
@@ -34,11 +33,17 @@ export class CreateProdDto {
   @IsString()
   info_notice: string;
 
-  //상품 카테고리
-  @IsString()
-  category: string;
-
   //prod가 팔렸는지 여부 기본값: false
   @IsBoolean()
   isSoldOut: boolean;
+
+  //유저 Id
+  @IsNotEmpty()
+  @IsNumber()
+  userId: number;
+
+  //상품 카테고리
+  @IsNotEmpty()
+  @IsString()
+  categoryName: string;
 }

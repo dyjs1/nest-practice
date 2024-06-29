@@ -26,6 +26,7 @@ import configuration from 'config/configuration';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
+
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
         host: configService.get('database.host'),
@@ -35,6 +36,7 @@ import configuration from 'config/configuration';
         entities: [User, Prod],
         synchronize: true, // 아예 설정 xxxxxxxxxxxs
         logging: true,
+        autoLoadEntities: true,
       }),
     }),
     ProdModule,
@@ -43,7 +45,7 @@ import configuration from 'config/configuration';
     CategoryModule,
     ProdInfoNoticeModule,
   ],
-  controllers: [AppController, UsersController, CategoryController],
+  controllers: [AppController, UsersController],
   providers: [ProdInfoNoticeService],
 })
 export class AppModule {}

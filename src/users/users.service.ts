@@ -30,10 +30,6 @@ export class UsersService {
       },
     });
   }
-  // //로그인 보안인증시 사용
-  // async getProfile(id: number): Promise<User> {
-  //   return this.usersRepository.findOne({ where: { id: id } });
-  // }
 
   getUserByUsername(username: string): Promise<User> {
     return this.usersRepository.findOne({
@@ -42,7 +38,7 @@ export class UsersService {
       },
     });
   }
-  //delete 권한없어서 처리x
+  //delete 처리x
   deleteUser(id: number) {
     return this.usersRepository.delete(id);
   }
@@ -51,11 +47,6 @@ export class UsersService {
   async signUpUser(userData: CreateUserDto): Promise<User> {
     try {
       const { username, password } = userData;
-
-      //아이디 중복 검사
-      // const existingUser = await this.usersRepository.findOne({
-      //   where: { username },
-      // });
 
       //아이디 중복 검사
       const existingUser = await this.getUserByUsername(username);
