@@ -32,6 +32,7 @@ export class UsersController {
   }
 
   //access token이 있어야만 접근이 가능하도록 보호
+  //get(:id)보다 위에 선언해야함 auth/auth.guard.ts에서 검증
   @UseGuards(AuthGuard)
   @Get('profile')
   async getProfile(@Request() req) {
@@ -40,7 +41,7 @@ export class UsersController {
 
   //유저 한명 조회
   @Get(':id')
-  getUser(@Param('id') userId: number): Promise<User> {
+  getUserById(@Param('id') userId: number): Promise<User> {
     return this.UsersService.getUserById(userId);
   }
 

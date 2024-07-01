@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { AuthGuard } from './auth/auth.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +12,11 @@ async function bootstrap() {
       transform: true, //데이터 형변환처리
     }),
   );
-  await app.listen(3000);
+  app.enableCors({
+    //cors허용
+    origin: true,
+    credentials: true,
+  });
+  await app.listen(8000);
 }
 bootstrap();

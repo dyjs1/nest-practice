@@ -1,7 +1,7 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersModule } from 'src/users/users.module';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as dotenv from 'dotenv';
 import { AuthGuard } from './auth.guard';
@@ -14,7 +14,7 @@ dotenv.config();
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get('database.jwt_secret'), /////이부분 다시체크
+        secret: configService.get('database.jwt_secret'),
         signOptions: {
           expiresIn: '2d',
         },

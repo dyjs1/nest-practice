@@ -28,7 +28,7 @@ export class UpdateProdDto extends PartialType(CreateProdDto) {
   detail: string;
 
   //상품 옵션
-  @IsString({ each: true }) //리스트로 전달
+  @IsString({ each: true })
   option: string[];
 
   //상품 상품정보고시

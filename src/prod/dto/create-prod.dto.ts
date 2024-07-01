@@ -5,7 +5,6 @@ import {
   IsNumber,
   IsString,
   IsUrl,
-  isNumber,
 } from 'class-validator';
 
 export class CreateProdDto {
@@ -26,7 +25,7 @@ export class CreateProdDto {
   detail: string;
 
   //상품 옵션
-  @IsString({ each: true }) //리스트로 전달
+  @IsString({ each: true })
   option: string[];
 
   //상품 상품정보고시

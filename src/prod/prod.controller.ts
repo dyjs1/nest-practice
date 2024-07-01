@@ -8,27 +8,35 @@ export class ProdController {
   constructor(private readonly prodService: ProdService) {}
   //상품 등록
   @Post()
-  create(@Body() prodData: CreateProdDto) {
+  createProd(@Body() prodData: CreateProdDto) {
     return this.prodService.createProd(prodData);
   }
   //상품 조회
   @Get()
-  findAll() {
+  getAllProd() {
     return this.prodService.getAllProd();
   }
+  //카테고리별 상품 조회
+  @Get('category/:categoryId')
+  getProdsByCategory(@Param('categoryId') categoryId: string) {
+    return this.prodService.getProdsByCategory(+categoryId);
+  }
+
   //상품 한개만 조회
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  getProdById(@Param('id') id: string) {
     return this.prodService.getProdById(+id);
   }
-  // //상품 수정
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateProdDto: UpdateProdDto) {
-  //   return this.prodService.update(+id, updateProdDto);
-  // }
+
   // 상품 삭제
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.prodService.deleteProd(+id);
   }
+
+  // //상품 수정
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateProdDto: UpdateProdDto) {
+  //   return this.prodService.update(+id, updateProdDto);
+  // }
 }
